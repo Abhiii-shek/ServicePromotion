@@ -5,24 +5,14 @@ function ContactUs() {
     const [email,setEmail]=useState("")
     const [message,setMessage]=useState("")
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
 
-  const [formStatus, setFormStatus] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const serviceId="service_wltqrxb"
     const templateId="template_3awrg9m"
     const publicKey="sYgWCon5lX-0Xz4yj"
+    
     const templateParams={
         from_name: name,
         from_email:email,
@@ -30,39 +20,31 @@ function ContactUs() {
         from_message:message,
     }
 
+    emailjs.sendForm(serviceId,templateId,publicKey,templateParams, '#myForm').then((response)=>{
+      console.log('Email sent Sucessfully',response);
+      setName('');
+      setEmail('');
+      setMessage('');
   
-    
-    // Normally, you would send the form data to your server here
-    console.log('Form submitted:', formData);
-
-    // Simulate a successful form submission
-    setFormStatus('Thank you for your message. We will get back to you soon!');
-    setFormData({ name: '', email: '', message: '' }); // Reset form
+  
+    }).catch((error)=>{
+      console.log(error)
+    })
   };
 
-  emailjs.send(serviceId,templateId,publicKey,templateParams).then((response)=>{
-    console.log('Email sent Sucessfully',response);
-    setName('');
-    setEmail('');
-    setMessage('');
-
-
-  }).catch((error)=>{
-    console.log(error)
-  })
 
   return (
-    <div className="max-w-lg mt-10 mx-auto p-6 bg-slate-900 text-white rounded-lg shadow-lg mb-10 border-b border-white">
+    <div className="lg:w-[40%] w-[80%] mt-10 mx-auto p-6 bg-slate-900 text-white rounded-lg shadow-lg mb-10 border-b border-white">
       <h2 className="text-3xl font-bold text-center mb-6">Contact Us</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} id="myForm" className="space-y-4">
         <div>
-          <label htmlFor="name" className="block     mb-2">Name</label>
+          <label htmlFor="from_name" className="block     mb-2">Name</label>
           <input
             type="text"
             id="name"
-            name="name" 
-            value={formData.name}
-            onChange={handleChange}
+            name="from_name" 
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
             required
             className="w-full bg-slate-800  text-white px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
           />
@@ -73,8 +55,8 @@ function ContactUs() {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
             required
             className="w-full bg-slate-800 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
           />
@@ -84,20 +66,18 @@ function ContactUs() {
           <textarea
             id="message"
             name="message"
-            value={formData.message}
-            onChange={handleChange}
+            value={message}
+            onChange={(e)=> setMessage(e.target.value)}
             required
             rows="5"
             className="w-full bg-slate-800 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
           ></textarea>
         </div>
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-          Send Message
-        </button>
+        <input type="submit" value="Send" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"/>
+          
+      
       </form>
-      {formStatus && (
-        <p className="mt-4 text-green-600 text-center">{formStatus}</p>
-      )}
+     
     </div>
   );
 }
