@@ -15,7 +15,7 @@ function OurExpertise() {
     <div className="flex items-center justify-center w-48 h-48 bg-[#5b2fdf] rounded-full">
       <AsteriskIcon className="text-white w-24 h-24" />
     </div>
-    <h2 className="text-2xl font-semibold text-gray-400 mt-4">Our Expertise</h2>
+    <h2 className="text-2xl font-semibold text-gray-400 mt-4">Our <span className='text-gray-400'>Expertise</span> </h2>
     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mt-2">
       Expert <span className="text-[#5b2fdf]">Developers</span>, Exceptional Online Experiences.
     </h1>
